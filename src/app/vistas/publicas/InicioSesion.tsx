@@ -1,7 +1,97 @@
-import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import jwtDecode from "jwt-decode";
+import * as cifrado from "js-sha512";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+
+import MiSesion from "../../modelos/MiSesion";
+import CrearUsuario from "../../modelos/CrearUsuario";
+import { propUsuario } from "../../modelos/MisInterfaces";
+import ServicioPublico from "../../servicios/ServicioPublico";
+import { ContextoUsuario } from "../../seguridad/ContextoUsuario";
+import { useFormulario } from "../../utilidades/misHooks/useFormulario";
+
 import logoReact from "../../../assets/image/logoReact.png";
 
 export const InicioSesion = () => {
+  // Definición de variables
+  const navigate = useNavigate();
+  type formaHtml = React.FormEvent<HTMLFormElement>;
+  const [enProceso, setEnProceso] = useState<boolean>(false);
+  const { actualizar } = useContext(ContextoUsuario) as propUsuario;
+
+   // Formulario con hooks
+  let { correoUsuario, claveUsuario, dobleEnlace, objeto } = useFormulario<CrearUsuario>(new CrearUsuario("", "", ""));
+
+  // Función flecha para limpiar cajas
+  const limpiarCajas = (formulario: HTMLFormElement) => {
+    formulario.reset();
+
+    objeto.correoUsuario = "";
+    objeto.claveUsuario = "";
+
+    formulario.correoUsuario.value = "";
+    formulario.claveUsuario.value = "";
+
+    formulario.classList.remove("was-validated");
+  };
+
+  // Función flecha para presentar mensaje de error estilo toastify
+  const mensajeError = () => {
+    toast.error("No se puede iniciar sesión. Credenciales incorrectas", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
+  // Iniciar sesión
+  // *******************************************************************
+  const enviarFormulario = async (fh: formaHtml) => {
+    fh.preventDefault();
+    setEnProceso(true);
+    const formulario = fh.currentTarget;
+    formulario.classList.add("was-validated");
+    if (formulario.checkValidity() === false) {
+      fh.preventDefault();
+      fh.stopPropagation();
+    } else {
+      const claveCifrada = cifrado.sha512(objeto.claveUsuario);
+      
+      // todo
+      objeto.claveUsuario = claveCifrada;
+      
+      const resultado = await ServicioPublico.iniciarSesion(objeto);
+
+      if (resultado.tokenMintic) {
+        const objJWTRecibido: any = jwtDecode(resultado.tokenMintic);
+        const usuarioCargado = new MiSesion(
+          objJWTRecibido.codUsuario,
+          objJWTRecibido.correo,
+          objJWTRecibido.perfil
+        );
+        actualizar(usuarioCargado);
+
+        localStorage.setItem("tokenMintic", resultado.tokenMintic);
+        
+        navigate("/dashboard");
+        setEnProceso(false);
+      } else {
+        limpiarCajas(formulario);
+        mensajeError();
+      }
+    }
+  };
+
   return (
     <div>
       <main>
@@ -31,45 +121,48 @@ export const InicioSesion = () => {
                         </p>
                       </div>
 
-                      <form className="row g-3 needs-validation" noValidate>
+                      <Form
+                        noValidate
+                        validated={enProceso}
+                        onSubmit={enviarFormulario}
+                        className="row g-3"
+                      >
                         <div className="col-12">
-                          <label htmlFor="yourUsername" className="form-label">
-                            Correo electrónico
-                          </label>
-                          <div className="input-group has-validation">
-                            <span
-                              className="input-group-text"
-                              id="inputGroupPrepend"
-                            >
-                              @
-                            </span>
-                            <input
-                              type="text"
-                              name="username"
-                              className="form-control"
-                              id="yourUsername"
-                              required
-                            />
-                            <div className="invalid-feedback">
-                              Please enter your username.
+                          <Form.Group controlId="correoUsuario">
+                            <Form.Label>Correo electrónico</Form.Label>
+                            <div className="input-group has-validation">
+                              <span className="input-group-text">@</span>
+                              <Form.Control
+                                required
+                                type="email"
+                                name="correoUsuario"
+                                className="form-control"
+                                value={correoUsuario}
+                                onChange={dobleEnlace}
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                correo electrónico es obligatorio
+                              </Form.Control.Feedback>
                             </div>
-                          </div>
+                          </Form.Group>
                         </div>
 
                         <div className="col-12">
-                          <label htmlFor="yourPassword" className="form-label">
-                            Contraseña
-                          </label>
-                          <input
-                            type="password"
-                            name="password"
-                            className="form-control"
-                            id="yourPassword"
-                            required
-                          />
-                          <div className="invalid-feedback">
-                            Please enter your password!
-                          </div>
+                          <Form.Group controlId="claveUsuario">
+                            <Form.Label>Contraseña</Form.Label>
+                            <Form.Control
+                              required
+                              type="password"
+                              name="claveUsuario"
+                              className="form-control"
+                              minLength={4}
+                              value={claveUsuario}
+                              onChange={dobleEnlace}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Mínimo 4 caracteres
+                            </Form.Control.Feedback>
+                          </Form.Group>
                         </div>
 
                         <div className="col-12">
@@ -83,12 +176,10 @@ export const InicioSesion = () => {
                         <div className="col-12">
                           <p className="small mb-0">
                             ¿No tienes cuenta?{" "}
-                            <Link to="/register">
-                              Clic aquí para crear una
-                            </Link>
+                            <Link to="/register">Clic aquí para crear una</Link>
                           </p>
                         </div>
-                      </form>
+                      </Form>
                     </div>
                   </div>
                 </div>
@@ -97,6 +188,7 @@ export const InicioSesion = () => {
           </section>
         </div>
       </main>
+      <ToastContainer />
     </div>
   );
 };

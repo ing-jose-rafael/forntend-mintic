@@ -77,3 +77,103 @@ body {
     margin-top: 7rem;
   }
 }
+
+.team {
+  -webkit-transition: all .5s;
+  transition: all .5s
+}
+.team .team-img .team-social {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  -webkit-transform: translateX(50px);
+  transform: translateX(50px)
+}
+.team .title {
+  font-weight: 500
+}
+.team .content,
+.team .content .speciality,
+.team .content .title {
+  -webkit-transition: all .5s;
+  transition: all .5s
+}
+.team .team-person img {
+  -webkit-transition: all .5s;
+  transition: all .5s
+}
+.team .team-person .team-like {
+  position: absolute;
+  top: 10px;
+  left: 10px
+}
+.team .team-person:hover img {
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05)
+}
+.team:hover .team-img .team-social {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  transform: translateX(0)
+}
+.team:hover .content {
+  background: #396cf0!important
+}
+.team:hover .content .title {
+  color: #fff!important
+}
+.team:hover .content .speciality {
+  color: rgba(255, 255, 255, .5)!important
+}
+
+.rounded {
+  border-radius: 5px!important
+}
+.rounded-top {
+  border-top-right-radius: 5px!important;
+  border-top-left-radius: 5px!important
+}
+.rounded-left {
+  border-top-right-radius: 5px!important;
+  border-bottom-right-radius: 5px!important
+}
+.rounded-bottom {
+  border-bottom-right-radius: 5px!important;
+  border-bottom-left-radius: 5px!important
+}
+.rounded-right {
+  border-top-left-radius: 5px!important;
+  border-bottom-left-radius: 5px!important
+}
+.rounded-md {
+  border-radius: 10px!important
+}
+.rounded-lg {
+  border-radius: 30px!important
+}
+.features .big-icon,
+.features .icons,
+.features .para,
+.features .titles {
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease
+}
+.features:hover .big-icon,
+.features:hover .icons,
+.features:hover .titles {
+    color: #fff!important
+}
+.page-wrapper .sidebar-wrapper.sidebar-colored .btn.btn-icon,
+.page-wrapper .sidebar-wrapper.sidebar-dark .btn.btn-icon {
+    background-color: rgba(248, 249, 250, .03)!important;
+    color: rgba(248, 249, 250, .5)!important;
+    border: none!important;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+.title-left{
+  text-align: left!important;
+}
