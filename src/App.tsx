@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 // import { Principal } from './app/vistas/publicas/Principal';
 import { RuteoCompleto } from './app/utilidades/rutas/RuteoCompleto';
 

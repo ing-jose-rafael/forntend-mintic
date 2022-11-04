@@ -4,8 +4,8 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ServicioPublico from "../../servicios/ServicioPublico";
 
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+
+import { ToastContainer } from "react-toastify";
 
 import CrearUsuario from "../../modelos/CrearUsuario";
 import logoReact from "../../../assets/image/logoReact.png";
@@ -16,6 +16,7 @@ import jwtDecode from "jwt-decode";
 import * as cifrado from "js-sha512";
 import MiSesion from "../../modelos/MiSesion";
 import { propUsuario } from "../../modelos/MisInterfaces";
+import { MensajeToastify } from "../../utilidades/funciones/MensajeToastify";
 
 export const RegistroSesion = () => {
   type formitaHtml = React.FormEvent<HTMLFormElement>;
@@ -47,18 +48,18 @@ export const RegistroSesion = () => {
   };
   // Función flecha para presentar mensaje de error estilo toastify
   // *******************************************************************
-  const mensajeError = () => {
-    toast.error("No se puede crear el usuario. Correo o perfil incorrectos", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
+  // const mensajeError = () => {
+  //   toast.error("No se puede crear el usuario. Correo o perfil incorrectos", {
+  //     position: "top-center",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "dark",
+  //   });
+  // };
 
   const enviarFormulario = async (fh: formitaHtml) => {
     fh.preventDefault();
@@ -91,7 +92,7 @@ export const RegistroSesion = () => {
         setEnProceso(false);
       } else {
         limpiarCajas(formulario);
-        mensajeError();
+        MensajeToastify('Error','No se puede crear el usuario. Correo o perfil incorrectos',3000)
       }
 
     }

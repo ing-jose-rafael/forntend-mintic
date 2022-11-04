@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import * as cifrado from "js-sha512";
 
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+
+import { ToastContainer } from "react-toastify";
 
 import MiSesion from "../../modelos/MiSesion";
 import CrearUsuario from "../../modelos/CrearUsuario";
@@ -16,6 +16,7 @@ import { ContextoUsuario } from "../../seguridad/ContextoUsuario";
 import { useFormulario } from "../../utilidades/misHooks/useFormulario";
 
 import logoReact from "../../../assets/image/logoReact.png";
+import { MensajeToastify } from "../../utilidades/funciones/MensajeToastify";
 
 export const InicioSesion = () => {
   // Definición de variables
@@ -41,18 +42,18 @@ export const InicioSesion = () => {
   };
 
   // Función flecha para presentar mensaje de error estilo toastify
-  const mensajeError = () => {
-    toast.error("No se puede iniciar sesión. Credenciales incorrectas", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
+  // const mensajeError = () => {
+  //   toast.error("No se puede iniciar sesión. Credenciales incorrectas", {
+  //     position: "top-center",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "dark",
+  //   });
+  // };
 
   // Iniciar sesión
   // *******************************************************************
@@ -87,7 +88,7 @@ export const InicioSesion = () => {
         setEnProceso(false);
       } else {
         limpiarCajas(formulario);
-        mensajeError();
+        MensajeToastify('Error','Credenciales incorrectas',3000);
       }
     }
   };

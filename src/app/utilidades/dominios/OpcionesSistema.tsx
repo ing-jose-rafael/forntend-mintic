@@ -13,6 +13,12 @@ const opcionesAdmin = [
     { nombre: "Nuevo", icono: "bi bi-circle", ruta: "/dashboard/admuser" },
     { nombre: "Administración", icono: "bi bi-circle", ruta: "/dashboard/admuser", },
     ]
+  },
+  { nombre: "Perfil", icono: "bi bi-person-lines-fill", ruta: "", hijos: [
+    { nombre: "Listado", icono: "bi bi-circle", ruta: "/dashboard/listprofiles", },
+    { nombre: "Nuevo", icono: "bi bi-circle", ruta: "/dashboard/addprofile" },
+    { nombre: "Administración", icono: "bi bi-circle", ruta: "/dashboard/admprofile", },
+    ]
   }
 ];
 

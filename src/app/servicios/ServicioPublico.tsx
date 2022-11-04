@@ -38,6 +38,7 @@ class ServicioPublico {
       .catch((miError) => miError);
     return respuesta;
   }
+
 }
 
 export default ServicioPublico;
