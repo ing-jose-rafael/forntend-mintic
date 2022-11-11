@@ -6,11 +6,18 @@ import { AcercaDe } from "../../vistas/compartidas/AcercaDe";
 import { Config } from "../../vistas/privadas/usuarios/Config";
 import { NoEncontrado } from "../../vistas/compartidas/NoEncontrado";
 import { ListaDoctores } from '../../vistas/privadas/dotores/ListaDoctores'
-import { ListaPerfiles } from '../../vistas/privadas/perfiles/Perfiles'
+// import { ListaPerfiles } from '../../vistas/privadas/perfiles/Perfiles'
 import { PerfilListado } from "../../vistas/privadas/perfiles/PerfilListado";
 import { PerfilCrear } from "../../vistas/privadas/perfiles/PerfilCrear";
 import { PerfilAdmin } from "../../vistas/privadas/perfiles/PerfilAdmin";
 import { PerfilActual } from "../../vistas/privadas/perfiles/PerfilActual";
+import { UsuarioListado } from "../../vistas/privadas/usuarios/UsuarioListado";
+import { UsuarioCrear } from "../../vistas/privadas/usuarios/UsuarioCrear";
+import { UsuarioDetalle } from "../../vistas/privadas/usuarios/UsuarioDetalle";
+import { UsuarioAdmin } from "../../vistas/privadas/usuarios/UsuarioAdmin";
+import { CitaCrear } from "../../vistas/privadas/citas/CitaCrear";
+import { CitaListado } from "../../vistas/privadas/citas/CitaListado";
+import { UsuarioActual } from "../../vistas/privadas/usuarios/UsuarioActual";
 
 // Carga Lazy - Supenso
 // ***********************************************************************************************
@@ -32,11 +39,22 @@ const LazyAcercaDe = lazy(() => import("../../vistas/compartidas/AcercaDe").then
 const LazyConfig = lazy(() => import("../../vistas/privadas/usuarios/Config").then(() => ({ default: Config })));
 const LazyListDoctors = lazy(() => import("../../vistas/privadas/dotores/ListaDoctores").then(() => ({ default: ListaDoctores })));
 
-const LazyListPerfils = lazy(() => import("../../vistas/privadas/perfiles/Perfiles").then(() => ({ default: ListaPerfiles })));
+// const LazyListPerfils = lazy(() => import("../../vistas/privadas/perfiles/Perfiles").then(() => ({ default: ListaPerfiles })));
 const LazyPerfilListado = lazy(() => import("../../vistas/privadas/perfiles/PerfilListado").then(() => ({ default: PerfilListado })));
 const LazyPerfilCrear = lazy(() => import("../../vistas/privadas/perfiles/PerfilCrear").then(() => ({ default: PerfilCrear })));
 const LazyPerfilAdmin = lazy(() => import("../../vistas/privadas/perfiles/PerfilAdmin").then(() => ({ default: PerfilAdmin })));
 const LazyPerfilActual = lazy(() => import("../../vistas/privadas/perfiles/PerfilActual").then(() => ({ default: PerfilActual })));
+
+const LazyUsuarioListado = lazy(() => import("../../vistas/privadas/usuarios/UsuarioListado").then(() => ({ default: UsuarioListado })) );
+const LazyUsuarioCrear = lazy(() => import("../../vistas/privadas/usuarios/UsuarioCrear").then(() => ({ default: UsuarioCrear })) );
+const LazyUsuarioDetalle = lazy(() => import("../../vistas/privadas/usuarios/UsuarioDetalle").then(() => ({ default: UsuarioDetalle })) );
+const LazyUsuarioAdmin = lazy(() => import("../../vistas/privadas/usuarios/UsuarioAdmin").then(() => ({ default: UsuarioAdmin })) );
+const LazyUsuarioActual = lazy(() => import("../../vistas/privadas/usuarios/UsuarioActual").then(() => ({ default: UsuarioActual })) );
+// const LazyUsuarioActual = lazy(() => import("../../vistas/privadas/usuarios/UsuarioActual").then(() => ({ default: LazyUsuarioActual })) );
+
+const LazyCitaCrear = lazy(() => import("../../vistas/privadas/citas/CitaCrear").then(() => ({ default: CitaCrear })) );
+const LazyCitaListado = lazy(() => import("../../vistas/privadas/citas/CitaListado").then(() => ({ default: CitaListado })) );
+
 
 export const RuteoTablero = () => {
   return (
@@ -47,11 +65,20 @@ export const RuteoTablero = () => {
         <Route path="/config" element={<LazyConfig />} />
         <Route path="/listdoctores" element={<LazyListDoctors />} />
 
-        <Route path="/listperfiles" element={<LazyListPerfils />} />
+        {/* <Route path="/listperfiles" element={<LazyListPerfils />} /> */}
         <Route path="/listprofiles" element={<LazyPerfilListado />} />
         <Route path="/addprofile" element={<LazyPerfilCrear />} />
         <Route path="/admprofile" element={<LazyPerfilAdmin />} />
         <Route path="/updateprofile/:codigo" element={<LazyPerfilActual />} />
+
+        <Route path="/listusers" element={<LazyUsuarioListado />} />
+        <Route path="/adduser" element={<LazyUsuarioCrear />} />
+        <Route path="/detailuser/:codigo" element={<LazyUsuarioDetalle />} />
+        <Route path="/admuser" element={<LazyUsuarioAdmin />} />
+        <Route path="/updateuser/:codigo" element={<LazyUsuarioActual />} />
+
+        <Route path="/addma" element={<LazyCitaCrear />} />
+        <Route path="/listma" element={<LazyCitaListado />} />
 
         <Route path="*" element={<RecursoNoEncontrado />} />
       </Routes>

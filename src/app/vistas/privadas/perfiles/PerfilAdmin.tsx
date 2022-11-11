@@ -70,6 +70,7 @@ export const PerfilAdmin = () => {
                   <th style={{ width: "50%" }}>Nombre perfil</th>
                   <th style={{ width: "15%" }}>Estado</th>
                   <th style={{ width: "10%" }}> </th>
+                  <th className="text-center" style={{ width: "10%" }}>Usuarios</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,19 +80,25 @@ export const PerfilAdmin = () => {
                       <td>{index + 1}</td>
                       <td>{perfil.nombrePerfil}</td>
                       <td>{perfil.estadoPerfil === 1 ? 'Activo' : 'Inactivo'}</td>
-                      <td>
+                      <td className="text-center">{perfil.cantUsuarios}</td>
+                      <td className="text-center">
+                      {perfil.cantUsuarios === 0 ? (
                         <a href="/#" onClick={e => {
                           e.preventDefault();
                           setShow(true);
                           setObjPer(perfil);
                         }}>
                           <i className="fa-regular fa-trash-can" style={{ color: "red" }}></i>
-                        </a>
+                        </a>):(<i
+                          className="fa-solid fa-trash-can"
+                          style={{ color: "#908989" }}
+                        ></i>)}
                         {" "}
                         <Link to={`/dashboard/updateprofile/${perfil._id}`}>
                           <i className="fa-solid fa-user-pen" style={{ color: "green" }}></i>
                         </Link>
                       </td>
+                     
                     </tr>
                   ))
                 }

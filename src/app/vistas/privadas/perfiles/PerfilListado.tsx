@@ -15,14 +15,15 @@ export const PerfilListado = () => {
   const obtenerPerfiles = async () => {
     const resultado = await ServicioPrivado.peticionGET(ApiBack.PERFILES_OBTENER);
     setArregloPerfiles(resultado);
+    //  console.log(resultado);
     return resultado;
   };
 
   // Un nuevo concepto: useEffect
   useEffect(() => {
-    obtenerPerfiles()
-    // console.log('me volvi a crear :(');
-
+    obtenerPerfiles();
+   
+    
   }, [])
 
   return (
@@ -50,6 +51,7 @@ export const PerfilListado = () => {
                   <th style={{ width: "20%" }}>Orden</th>
                   <th style={{ width: "65%" }}>Nombre perfil</th>
                   <th style={{ width: "15%" }}>Estado</th>
+                  <th className="text-center" style={{ width: "10%" }}>Usuarios</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,6 +61,7 @@ export const PerfilListado = () => {
                         <td>{index+1}</td>
                         <td>{perfil.nombrePerfil}</td>
                         <td>{perfil.estadoPerfil === 1?'Activo':'Inactivo'}</td>
+                        <td className="text-center">{perfil.cantUsuarios}</td>
                       </tr>
                     )
                   )

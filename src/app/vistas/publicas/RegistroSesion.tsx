@@ -18,12 +18,13 @@ import MiSesion from "../../modelos/MiSesion";
 import { propUsuario } from "../../modelos/MisInterfaces";
 import { MensajeToastify } from "../../utilidades/funciones/MensajeToastify";
 
+
 export const RegistroSesion = () => {
   type formitaHtml = React.FormEvent<HTMLFormElement>;
 
   const [enProceso, setEnProceso] = useState<boolean>(false);
 
-  let { nombreUsuario, correoUsuario, claveUsuario, dobleEnlace, objeto } = useFormulario<CrearUsuario>(new CrearUsuario('', '', ''));
+  let { nombreUsuario, cedulaUsuario, correoUsuario, claveUsuario, dobleEnlace, objeto } = useFormulario<CrearUsuario>(new CrearUsuario('', '', '', ''));
 
   // Variables
   // *******************************************************************
@@ -37,10 +38,12 @@ export const RegistroSesion = () => {
     formulario.reset();
 
     objeto.nombreUsuario = "";
+    objeto.cedulaUsuario = "";
     objeto.correoUsuario = "";
     objeto.claveUsuario = "";
 
     formulario.nombreUsuario.value = "";
+    formulario.cedulaUsuario.value = "";
     formulario.correoUsuario.value = "";
     formulario.claveUsuario.value = "";
 
@@ -73,10 +76,10 @@ export const RegistroSesion = () => {
     } else {
 
       // Código para crear el usuario consumiendo servicio del back y usando sha512
-      // 
       const claveCifrada = cifrado.sha512(objeto.claveUsuario);
       objeto.claveUsuario = claveCifrada;
       const resultado = await ServicioPublico.crearUsuario(objeto);
+      console.log(objeto);
       
       if (resultado.tokenMintic) {
         const objJWTRecibido: any = jwtDecode(resultado.tokenMintic);
@@ -88,11 +91,12 @@ export const RegistroSesion = () => {
         actualizar(usuarioCargado);
 
         localStorage.setItem("tokenMintic", resultado.tokenMintic);
+        localStorage.setItem("avatarMintic", resultado.avatarMintic);
         navigate("/dashboard"); // redirigir
         setEnProceso(false);
       } else {
         limpiarCajas(formulario);
-        MensajeToastify('Error','No se puede crear el usuario. Correo o perfil incorrectos',3000)
+        MensajeToastify('Error', 'No se puede crear el usuario. Correo o perfil incorrectos', 3000)
       }
 
     }
@@ -106,8 +110,7 @@ export const RegistroSesion = () => {
               <div className="row justify-content-center">
                 <div className="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center">
                   <div className="d-flex justify-content-center py-4">
-                    <Link
-                      to="/"
+                    <Link to="/"
                       className="logo d-flex align-items-center w-auto"
                     >
                       <img src={logoReact} alt="" />
@@ -140,6 +143,23 @@ export const RegistroSesion = () => {
                             />
                             <Form.Control.Feedback type="invalid">
                               Nombre es obligatorio
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                        </div>
+
+                        <div className="col-12">
+                          <Form.Group controlId="cedulaUsuario">
+                            <Form.Label>Cedula</Form.Label>
+                            <Form.Control
+                              required
+                              type="text"
+                              name="cedulaUsuario"
+                              className="form-control"
+                              value={cedulaUsuario}
+                              onChange={dobleEnlace}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                              Numero de cedula es obligatoria
                             </Form.Control.Feedback>
                           </Form.Group>
                         </div>

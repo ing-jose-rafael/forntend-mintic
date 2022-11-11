@@ -14,6 +14,7 @@ class ServicioPrivado {
     };
 
     const url = ApiBack.URL + urlServicio;
+    
     const respuesta = fetch(url, datosEnviar)
       .then((respuesta) => respuesta.json())
       .then((datos) => { return datos; })

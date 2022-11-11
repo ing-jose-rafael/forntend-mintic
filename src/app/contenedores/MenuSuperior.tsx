@@ -9,6 +9,8 @@ export const MenuSuperior = () => {
   const navegacion = useNavigate();
   const miUsuario = useContext(ContextoUsuario);
   const correoUsuario = miUsuario?.autenticado.correo;
+  
+  let avatarUsuario = String(localStorage.getItem("avatarMintic"));
 
   const cerrarSesion = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -212,7 +214,11 @@ export const MenuSuperior = () => {
               href="/#"
               data-bs-toggle="dropdown"
             >
-              <img src={perfilUsu} alt="Profile" className="rounded-circle" />
+              <img onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src=perfilUsu;
+                }}
+                src={avatarUsuario} alt="Profile" className="rounded-circle" />
               <span className="d-none d-md-block dropdown-toggle ps-2">
                 {correoUsuario}
               </span>

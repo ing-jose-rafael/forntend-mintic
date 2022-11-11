@@ -26,7 +26,7 @@ export const InicioSesion = () => {
   const { actualizar } = useContext(ContextoUsuario) as propUsuario;
 
    // Formulario con hooks
-  let { correoUsuario, claveUsuario, dobleEnlace, objeto } = useFormulario<CrearUsuario>(new CrearUsuario("", "", ""));
+  let { correoUsuario, claveUsuario, dobleEnlace, objeto } = useFormulario<CrearUsuario>(new CrearUsuario("", "", "",""));
 
   // Función flecha para limpiar cajas
   const limpiarCajas = (formulario: HTMLFormElement) => {
@@ -83,7 +83,7 @@ export const InicioSesion = () => {
         actualizar(usuarioCargado);
 
         localStorage.setItem("tokenMintic", resultado.tokenMintic);
-        
+        localStorage.setItem("avatarMintic", resultado.avatarMintic);
         navigate("/dashboard");
         setEnProceso(false);
       } else {
